@@ -1,12 +1,14 @@
 'use client';
 
-import { useMiniKit } from '@coinbase/minikit';
-import { useAuthenticate } from '@coinbase/onchainkit/minikit';
 import { BalanceDisplay } from './BalanceDisplay';
 
 export function StreamPulseHeader() {
-  const { context } = useMiniKit();
-  const { user } = useAuthenticate();
+  // Mock user data for demo - in production, this would come from wallet/auth context
+  const mockUser = {
+    displayName: 'Demo User',
+    pfpUrl: null,
+    isConnected: true,
+  };
 
   return (
     <header className="flex items-center justify-between">
@@ -26,18 +28,25 @@ export function StreamPulseHeader() {
         <BalanceDisplay />
         
         <div className="flex items-center space-x-2">
-          {context?.user?.pfpUrl && (
-            <img 
-              src={context.user.pfpUrl} 
-              alt="Profile" 
+          {mockUser.pfpUrl && (
+            <img
+              src={mockUser.pfpUrl}
+              alt="Profile"
               className="w-8 h-8 rounded-full"
             />
           )}
+          {!mockUser.pfpUrl && (
+            <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
+              <span className="text-white text-xs font-bold">
+                {mockUser.displayName.charAt(0).toUpperCase()}
+              </span>
+            </div>
+          )}
           <div className="text-right">
             <p className="text-sm font-medium text-white">
-              {context?.user?.displayName || 'Anonymous'}
+              {mockUser.displayName}
             </p>
-            {user && (
+            {mockUser.isConnected && (
               <p className="text-xs text-gray-400">Connected</p>
             )}
           </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Market } from '@/lib/types';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { useBets } from '@/lib/hooks';
 
 interface BettingButtonProps {
   variant: 'buyYes' | 'buyNo';
@@ -13,13 +14,29 @@ interface BettingButtonProps {
 
 export function BettingButton({ variant, market, disabled = false, onClick }: BettingButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const { placeBet } = useBets();
 
   const handleClick = async () => {
     if (disabled || isLoading) return;
-    
+
     setIsLoading(true);
     try {
-      await onClick();
+      const outcome = variant === 'buyYes' ? 'yes' : 'no';
+      const amount = 10; // Default bet amount - in production, this would be configurable
+
+      const result = await placeBet({
+        userId: 'current-user', // In production, get from auth context
+        marketId: market.marketId,
+        outcome,
+        amount,
+      });
+
+      if (result.success) {
+        await onClick();
+      } else {
+        console.error('Error placing bet:', result.error);
+        // In production, show error toast
+      }
     } finally {
       setIsLoading(false);
     }
