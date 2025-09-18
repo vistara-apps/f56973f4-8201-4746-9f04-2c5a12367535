@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, Clock, DollarSign } from 'lucide-react';
+import { useMarkets } from '@/lib/hooks';
 
 interface MarketFormData {
   eventDescription: string;
@@ -14,6 +15,7 @@ interface MarketFormData {
 export function CreateMarketForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createMarket } = useMarkets();
   const [formData, setFormData] = useState<MarketFormData>({
     eventDescription: '',
     outcomeYes: '',
@@ -28,19 +30,30 @@ export function CreateMarketForm() {
 
     setIsSubmitting(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Creating market:', formData);
-      
-      // Reset form
-      setFormData({
-        eventDescription: '',
-        outcomeYes: '',
-        outcomeNo: '',
-        duration: 60,
-        initialValue: 100,
+      const result = await createMarket({
+        creatorId: 'current-user', // In production, get from auth context
+        streamId: 'current-stream', // In production, get from current stream context
+        eventDescription: formData.eventDescription,
+        outcomeYes: formData.outcomeYes,
+        outcomeNo: formData.outcomeNo,
+        duration: formData.duration,
+        initialValue: formData.initialValue,
       });
-      setIsOpen(false);
+
+      if (result.success) {
+        // Reset form
+        setFormData({
+          eventDescription: '',
+          outcomeYes: '',
+          outcomeNo: '',
+          duration: 60,
+          initialValue: 100,
+        });
+        setIsOpen(false);
+      } else {
+        console.error('Error creating market:', result.error);
+        // In production, show error toast
+      }
     } catch (error) {
       console.error('Error creating market:', error);
     } finally {

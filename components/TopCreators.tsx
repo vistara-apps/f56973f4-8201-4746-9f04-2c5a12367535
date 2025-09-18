@@ -1,49 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { formatCurrency, formatPercentage } from '@/lib/utils';
 import { TrendingUp, Verified } from 'lucide-react';
-
-interface Creator {
-  id: string;
-  name: string;
-  performance: number;
-  buyPrice: number;
-  accuracy: number;
-  change: number;
-  isVerified: boolean;
-}
+import { useCreators } from '@/lib/hooks';
 
 export function TopCreators() {
-  const [creators] = useState<Creator[]>([
-    {
-      id: '1',
-      name: 'Her Gyrates Pros Ms',
-      performance: 1500,
-      buyPrice: 45,
-      accuracy: 0.78,
-      change: 0.12,
-      isVerified: true,
-    },
-    {
-      id: '2',
-      name: 'TechMaster',
-      performance: 1200,
-      buyPrice: 38,
-      accuracy: 0.82,
-      change: 0.08,
-      isVerified: false,
-    },
-    {
-      id: '3',
-      name: 'GamePro',
-      performance: 980,
-      buyPrice: 32,
-      accuracy: 0.75,
-      change: -0.03,
-      isVerified: true,
-    },
-  ]);
+  const { creators, loading, error } = useCreators(5, 'totalVolume');
 
   return (
     <div className="card">
@@ -55,47 +17,55 @@ export function TopCreators() {
         </div>
       </div>
 
-      <div className="space-y-3">
-        {creators.map((creator, index) => (
-          <div key={creator.id} className="flex items-center justify-between p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors duration-200">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">{index + 1}</span>
-              </div>
-              <div>
-                <div className="flex items-center space-x-1">
-                  <p className="text-sm font-medium text-white">{creator.name}</p>
-                  {creator.isVerified && (
-                    <Verified className="w-3 h-3 text-blue-400" />
-                  )}
+      {loading ? (
+        <div className="text-center py-4">
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
+          <p className="text-gray-400 text-sm mt-2">Loading creators...</p>
+        </div>
+      ) : error ? (
+        <div className="text-center py-4">
+          <p className="text-red-400 text-sm">Error loading creators</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {creators.map((creator, index) => (
+            <div key={creator.creatorId} className="flex items-center justify-between p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors duration-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">{index + 1}</span>
                 </div>
-                <p className="text-xs text-gray-400">
-                  {formatPercentage(creator.accuracy)} accuracy
-                </p>
-              </div>
-            </div>
-
-            <div className="text-right">
-              <div className="flex items-center space-x-2">
                 <div>
-                  <p className="text-sm font-medium text-white">
-                    {formatCurrency(creator.performance)}
-                  </p>
+                  <div className="flex items-center space-x-1">
+                    <p className="text-sm font-medium text-white">{creator.streamName}</p>
+                    {creator.isVerified && (
+                      <Verified className="w-3 h-3 text-blue-400" />
+                    )}
+                  </div>
                   <p className="text-xs text-gray-400">
-                    ${creator.buyPrice} per bet
+                    {formatPercentage(creator.analyticsData.accuracy)} accuracy
                   </p>
                 </div>
-                <div className={`flex items-center ${creator.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  <TrendingUp className={`w-3 h-3 ${creator.change < 0 ? 'rotate-180' : ''}`} />
-                  <span className="text-xs ml-1">
-                    {formatPercentage(Math.abs(creator.change))}
-                  </span>
+              </div>
+
+              <div className="text-right">
+                <div className="flex items-center space-x-2">
+                  <div>
+                    <p className="text-sm font-medium text-white">
+                      {formatCurrency(creator.analyticsData.totalVolume)}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      {creator.analyticsData.totalMarkets} markets
+                    </p>
+                  </div>
+                  <div className="text-green-400">
+                    <TrendingUp className="w-3 h-3" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <div className="mt-4 pt-4 border-t border-gray-700">
         <div className="text-center">

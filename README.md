@@ -54,6 +54,12 @@ StreamPulse Bets is a Base Mini App that enables live prediction markets for str
 
 ```
 ├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   │   ├── markets/       # Market CRUD operations
+│   │   ├── bets/          # Bet placement and retrieval
+│   │   ├── users/         # User management
+│   │   ├── creators/      # Creator profiles and analytics
+│   │   └── frame/         # Farcaster Frame integration
 │   ├── layout.tsx         # Root layout with providers
 │   ├── page.tsx           # Main dashboard page
 │   ├── providers.tsx      # MiniKit and OnchainKit providers
@@ -62,10 +68,15 @@ StreamPulse Bets is a Base Mini App that enables live prediction markets for str
 │   ├── StreamPulseHeader.tsx
 │   ├── PredictionCard.tsx
 │   ├── CreateMarketForm.tsx
+│   ├── BettingButton.tsx
+│   ├── BalanceDisplay.tsx
 │   └── ...
 ├── lib/                   # Utilities and types
 │   ├── types.ts          # TypeScript interfaces
-│   └── utils.ts          # Helper functions
+│   ├── utils.ts          # Helper functions
+│   ├── hooks.ts          # Custom React hooks
+│   ├── contracts.ts      # Smart contract utilities
+│   └── farcaster.ts      # Farcaster integration
 └── public/               # Static assets
 ```
 
@@ -85,6 +96,34 @@ StreamPulse Bets is a Base Mini App that enables live prediction markets for str
 3. **Real-time Updates**: Live price updates based on market activity
 4. **Leaderboards**: Top creators and most accurate predictors
 5. **Portfolio Tracking**: User balance and prediction history
+
+### API Endpoints
+
+#### Markets
+- `GET /api/markets` - List all markets with filtering
+- `POST /api/markets` - Create new market
+- `GET /api/markets/[id]` - Get market details
+- `PUT /api/markets/[id]` - Update market
+- `DELETE /api/markets/[id]` - Delete market
+- `POST /api/markets/[id]/resolve` - Resolve market with winning outcome
+- `GET /api/markets/stats` - Get market statistics
+
+#### Bets
+- `GET /api/bets` - List bets with filtering
+- `POST /api/bets` - Place new bet
+
+#### Users
+- `GET /api/users` - List users with filtering
+- `POST /api/users` - Create new user
+
+#### Creators
+- `GET /api/creators` - List creators with sorting
+- `POST /api/creators` - Create new creator profile
+
+#### Farcaster Frames
+- `POST /api/frame` - Main frame handler
+- `POST /api/frame/bet` - Handle bet placement from frames
+- `GET /api/frame/image` - Generate dynamic frame images
 
 ## Design System
 
