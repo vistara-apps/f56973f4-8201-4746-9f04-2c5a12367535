@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "frame": {
+    "version": "1",
+    "name": "StreamPulse Bets",
+    "subtitle": "Built with Zara",
+    "description": "StreamPulse Bets is a Base Mini App built with Zara.",
+    "iconUrl": "https://0co.to/images/zara-2.png",
+    "homeUrl": "https://f56973f4820147469f042c5a12367535-mfk5.vercel.app",
+    "splashImageUrl": "https://f56973f4820147469f042c5a12367535-mfk5.vercel.app/splash.png",
+    "splashBackgroundColor": "#000000",
+    "heroImageUrl": "https://f56973f4820147469f042c5a12367535-mfk5.vercel.app/image.png",
+    "tagline": "StreamPulse Bets",
+    "screenshotUrls": [
+      "https://f56973f4820147469f042c5a12367535-mfk5.vercel.app/screenshot.png",
+      "https://f56973f4820147469f042c5a12367535-mfk5.vercel.app/screenshot.png"
+    ],
+    "primaryCategory": "social",
+    "tags": [
+      "base",
+      "miniapp",
+      "onchainkit"
+    ],
+    "webhookUrl": "https://f56973f4820147469f042c5a12367535-mfk5.vercel.app/api/webhook"
+  }
+}

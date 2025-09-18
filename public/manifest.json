@@ -1,0 +1,14 @@
+{
+  "name": "StreamPulse Bets",
+  "description": "StreamPulse Bets is a Base Mini App built with Zara.",
+  "image": "https://dummyimage.com/1200x628/0a0b0d/ffffff.png&text=OG",
+  "external_url": "https://f56973f4-8201-4746-9f04-2c5a12367535.vercel.app",
+  "properties": {
+    "app": {
+      "name": "StreamPulse Bets",
+      "description": "StreamPulse Bets is a Base Mini App built with Zara.",
+      "url": "https://f56973f4-8201-4746-9f04-2c5a12367535.vercel.app",
+      "icon": "https://0co.to/images/zara-2.png"
+    }
+  }
+}
